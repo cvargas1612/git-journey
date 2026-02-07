@@ -25,3 +25,5 @@ git log ver el historial
 git log --oneline
 
 git branch a solas muestras las branches disponibles
+
+git push -u origin "nombreDeLaNuevaBranch"
