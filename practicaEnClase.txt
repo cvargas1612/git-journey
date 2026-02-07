@@ -1,0 +1,176 @@
+Práctica guiada: Git + GitHub (fundamentos)
+
+Parte A: Crear el repositorio y clonarlo
+A1) Crear repositorio en GitHub
+
+En GitHub, crear un repositorio llamado: git-practica
+
+Marcarlo como Public
+
+No es necesario agregar README desde GitHub (opcional) / o seguir los comandos que da el repositorio al crearlo
+
+A2) Clonar el repositorio (SSH recomendado)
+
+En tu terminal desde la carpeta que quieren clonarlo:
+
+git clone git@github.com:TU_USUARIO/git-practica.git
+
+cd git-practica
+
+
+Verifica que el remote sea SSH:
+
+git remote -v
+
+Parte B: Primer commit en la rama principal
+B1) Crear un archivo README si aun no existe
+
+Crea un archivo README.md:
+
+printf "# Git Practica\n\nRepositorio para practicar Git.\n" > README.md
+
+B2) Revisar estado
+git status
+
+B3) Agregar cambios al staging
+git add README.md
+
+B4) Confirmar cambios (commit)
+git commit -m "Add README"
+
+B5) Ver historial de commits
+git log --oneline
+
+B6) Subir a GitHub (push)
+git push -u origin main
+
+
+Parte C: Crear una rama de desarrollo y trabajar en ella
+C1) Crear la rama dev y cambiarte a ella
+
+Opción 1 (moderna):
+
+Nota switch se usa tambien para cambiar de rama
+git switch -c dev
+
+
+Opción 2 (clásica):
+
+git checkout -b dev
+
+
+C2) Confirmar en qué rama estás / se sale de este modo con la tecla q
+git branch
+
+C3) Crear un archivo de práctica
+
+Crea un archivo notas.txt:
+
+printf "Notas de la rama dev\n- Punto 1\n- Punto 2\n" > notas.txt
+
+C4) Ver estado, agregar y commitear
+git status
+git add notas.txt
+git commit -m "Add notes file"
+
+C5) Subir la rama dev a GitHub
+
+Primera vez en esa rama:
+
+git push -u origin dev
+
+Parte D: Hacer merge de dev a main
+D1) Volver a main
+git switch main
+
+D2) Traer lo último del remoto (buena práctica)
+git pull
+
+D3) Hacer merge de dev dentro de main
+git merge dev
+
+
+Si no hay conflictos, Git completará el merge automáticamente.
+
+D4) Ver historial con gráfico
+git log --oneline --graph --all
+
+D5) Subir main a GitHub
+git push
+
+Parte E: Simular un conflicto (opcional, recomendado)
+
+El objetivo es aprender a resolver conflictos de forma controlada.
+
+E1) Crear un archivo compartido en main
+
+Asegúrate de estar en main:
+
+git switch main
+printf "Linea base\n" > conflicto.txt
+git add conflicto.txt
+git commit -m "Add base conflict file"
+git push
+
+E2) Cambiar a dev y modificar el mismo archivo distinto
+git switch dev
+printf "Linea desde dev\n" > conflicto.txt
+git add conflicto.txt
+git commit -m "Change conflict file in dev"
+git push
+
+E3) Volver a main y modificar el mismo archivo distinto
+git switch main
+printf "Linea desde main\n" > conflicto.txt
+git add conflicto.txt
+git commit -m "Change conflict file in main"
+
+E4) Intentar merge (esto provocará conflicto)
+git merge dev
+
+
+Git avisará conflicto en conflicto.txt.
+
+E5) Ver archivos en conflicto
+git status
+
+E6) Abrir y resolver el conflicto
+
+Abre conflicto.txt con tu editor y verás marcas como:
+
+<<<<<<<
+
+=======
+
+>>>>>>>
+
+Edita el archivo dejando el contenido final deseado, por ejemplo:
+
+Linea desde main
+Linea desde dev
+
+
+Guarda el archivo.
+
+E7) Marcar como resuelto y finalizar merge
+git add conflicto.txt
+git commit -m "Resolve merge conflict"
+
+E8) Subir a GitHub
+git push
+
+Parte F: Comandos de repaso y verificación
+F1) Ver ramas locales y remotas
+git branch
+git branch -r
+git branch -a
+
+F2) Ver diferencias entre ramas
+git diff main..dev
+
+F3) Ver cambios antes de hacer commit
+git status
+git diff
+
+F4) Ver historial resumido
+git log --oneline --decorate --graph --all
